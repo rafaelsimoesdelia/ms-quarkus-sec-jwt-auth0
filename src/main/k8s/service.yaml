@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: quarkus-sec-jwt-auth0-service
+spec:
+  selector:
+    app: quarkus-sec-jwt-auth0
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer

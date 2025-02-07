@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-sec-jwt-auth0
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: quarkus-sec-jwt-auth0
+  template:
+    metadata:
+      labels:
+        app: quarkus-sec-jwt-auth0
+    spec:
+      containers:
+        - name: quarkus-sec-jwt-auth0
+          image: quarkus/ms-quarkus-sec-jwt-auth0:latest
+          imagePullPolicy: Never #força pegar da imagem local e não no docker hub
+          ports:
+            - containerPort: 8080
+          env:
+            - name: AUTH0_DOMINIO_URL
+              value: "dev-vlilwsx23jfy03vz.us.auth0.com"
+
+            - name: AUTH0_CLIENT_ID
+              value: "yuK4diZs5HnMcTl4DFFDWATJQ46fe4QO"
+
+            - name: AUTH0_CLIENT_SECRET
+              value: "kmHYM9oTgM5OfXBlX9FdbGE2nS3Up1xbJtSsBivrnIMgUIZ4xGfXCuJNXVAvcvWR"
+
+            - name: AUTH0_AUDIENCE
+              value: "audience-my-api"
+
+            - name: AUTH0_TOKEN_URL
+              value: "https://$(AUTH0_DOMINIO_URL)/oauth/token"
+
+            - name: SMALLRYE_JWT_PATH_GROUPS
+              value: "rlr"
+
+            - name: SMALLRYE_JWT_CLAIMS_GROUPS
+              value: "rlr"
+
+            - name: MP_JWT_VERIFY_PUBLICKEY_LOCATION
+              value: "https://$(AUTH0_DOMINIO_URL)/.well-known/jwks.json"
+
+            - name: AUTH_CLIENT_MP_REST_URL
+              value: "https://$(AUTH0_DOMINIO_URL)"
