@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.ignis.api</groupId>
+	<artifactId>ms-quarkus-sec-jwt-auth0</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<!-- Propriedades globais do projeto -->
+	<properties>
+		<!-- Versões dos plugins utilizados -->
+		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
+		<compiler-plugin.version>3.11.0</compiler-plugin.version>
+		<surefire-plugin.version>3.1.2</surefire-plugin.version>
+
+		<!-- Configuração do compilador -->
+		<maven.compiler.parameters>true</maven.compiler.parameters>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
+
+
+		<!-- Encoding padrão do projeto -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- Versão e artefato do Quarkus -->
+		<quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+		<quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+		<quarkus.platform.version>3.18.1</quarkus.platform.version>
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>${quarkus.platform.group-id}</groupId>
+				<artifactId>${quarkus.platform.artifact-id}</artifactId>
+				<version>${quarkus.platform.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<dependencies>
+		<!-- Suporte a REST com Jakarta RESTful Web Services (JAX-RS) -->
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-rest</artifactId>
+		</dependency>
+
+		<!-- Integração com JUnit 5 para testes unitários no Quarkus -->
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-junit5</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Biblioteca para testes de APIs REST no Quarkus -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Extensão para geração e verificação de tokens JWT no Quarkus -->
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-smallrye-jwt-build</artifactId>
+		</dependency>
+
+		<!-- Suporte ao SmallRye JWT para autenticação baseada em JWT no Quarkus -->
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-smallrye-jwt</artifactId>
+		</dependency>
+
+		<!-- Biblioteca Lombok para reduzir código boilerplate (Getters,
+		Setters, Equals, HashCode, etc.) -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.36</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Suporte à serialização e desserialização JSON via Jackson no
+		Quarkus -->
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-rest-jackson</artifactId>
+		</dependency>
+
+		<!-- Cliente REST para comunicação com outras APIs REST -->
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-rest-client</artifactId>
+		</dependency>
+
+		<!-- Suporte ao Jackson no cliente REST -->
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-rest-client-jackson</artifactId>
+		</dependency>
+
+		<!-- Biblioteca SLF4J para logging no Quarkus -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<!-- Implementação do Logback para logging, usada nos testes -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.5.16</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Suporte ao Swagger/OpenAPI para documentação automática das APIs -->
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-smallrye-openapi</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.quarkus</groupId>
+			<artifactId>quarkus-smallrye-health</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<!-- Configuração do Build -->
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<!-- Plugin do Maven para compilar o código-fonte -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${compiler-plugin.version}</version>
+			</plugin>
+
+			<!-- Plugin para rodar testes unitários com JUnit -->
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${surefire-plugin.version}</version>
+			</plugin>
+
+			<!-- Plugin do Quarkus para build e geração do código -->
+			<plugin>
+				<groupId>${quarkus.platform.group-id}</groupId>
+				<artifactId>quarkus-maven-plugin</artifactId>
+				<version>${quarkus.platform.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Plugin para auxiliar na manipulação de arquivos no build -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>${build-helper-maven-plugin.version}</version>
+			</plugin>
+		</plugins>
+	</build>
+
+	<!-- Configuração do Profile para Native Image -->
+	<profiles>
+		<profile>
+			<id>native</id>
+			<activation>
+				<property>
+					<name>native</name>
+				</property>
+			</activation>
+			<properties>
+				<!-- Habilita a geração de binários nativos -->
+				<quarkus.native.enabled>true</quarkus.native.enabled>
+				<quarkus.package.jar.enabled>false</quarkus.package.jar.enabled>
+			</properties>
+			<build>
+				<plugins>
+					<!-- Plugin para rodar testes de integração -->
+					<plugin>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>${surefire-plugin.version}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
