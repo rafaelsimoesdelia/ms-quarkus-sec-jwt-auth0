@@ -11,7 +11,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@RegisterRestClient(baseUri = "https://Seu_Domínio_Auth0")
+@RegisterRestClient(configKey = "auth-client")
 @Path("/oauth/token")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
